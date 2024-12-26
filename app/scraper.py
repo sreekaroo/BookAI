@@ -1,4 +1,5 @@
 # Description: This module is responsible for scraping the Project Gutenberg website for books and downloading them to local storage.
+import os
 import re
 
 import requests
@@ -9,8 +10,8 @@ from bs4 import BeautifulSoup
 
 BOOK_INDEX_URL = "https://www.gutenberg.org/ebooks/bookshelf/"
 BASE_URL  = "https://www.gutenberg.org"
-
 BOOK_PAGE_TEMPLATE = "https://www.gutenberg.org/ebooks/14975"
+DOWNLOAD_DIR = "downloaded_books"
 
 # TODO filter out the links that are fiction and only return nonfiction book shelves
 class Scraper:
@@ -64,6 +65,7 @@ class Scraper:
 
         bookshelves = self.scrape_for_bookshelves()
 
+        print(f"Scraping {len(bookshelves)} bookshelves for books...\n")
         for shelf in bookshelves:
             book_links = self.get_book_links(shelf)
 
@@ -87,13 +89,35 @@ class Scraper:
                     self.db.set(book_url, book_metadata)
 
 
-    def download_book(self):
-        pass
+    def download_books(self):
+        book_keys = self.db.keys()
+        print(f"\nDownloading {len(book_keys)} books...\n")
+        os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+        for book_key in book_keys:
+            book_metadata = self.db.get(book_key)
+            book_url = book_metadata["txt_url"]
 
-    def run(self):
+            headers = self.spoofer.spoof_headers()
+            proxy = self.spoofer.spoof_proxy()
+
+            response = requests.get(BASE_URL + book_url, headers=headers, proxies=proxy)
+            response.raise_for_status()
+
+            with open(f"downloaded_books/{self.get_path_title(book_key)}.txt", "wb") as f:
+                f.write(response.content)
+
+            print("Downloaded book: ", book_metadata["title"])
+
+    def get_path_title(self, path:str):
+        return path.replace("/", "_")
+
+
+    def run(self, download=False):
         self.scrape_for_books()
+        if download:
+            self.download_books()
 
 if __name__ == "__main__":
     scraper = Scraper()
-    scraper.run()
+    scraper.run(download=True)
 

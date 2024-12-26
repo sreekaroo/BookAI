@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-downloaded_files
+downloaded_*
 db.json
 .idea
 *_demo_script.py

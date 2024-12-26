@@ -20,6 +20,9 @@ class LocalDatabase:
         self.db[key] = value
         self.save()
 
+    def keys(self):
+        return self.db.keys()
+
     def delete(self, key):
         del self.db[key]
         self.save()
