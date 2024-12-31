@@ -71,7 +71,6 @@ export default function BooksPage() {
     return (
         <Container maxW='container.xl' p={4}>
             {' '}
-            {/* Added padding here */}
             <Heading as='h2' size='lg' mb={4}>
                 Our Book Collection
             </Heading>

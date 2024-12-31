@@ -23,7 +23,7 @@ const BookOverview = ({ bookId, title, author, imageUrl, summary }: BookOverview
             >
                 <Flex direction='column' height='100%'>
                     <Box maxH='200px' overflow='hidden'>
-                        <Image src={imageUrl} alt={title} objectFit='cover' w='full' h='full' />
+                        <Image src={imageUrl} alt={title} objectFit='cover' fill='true' />
                     </Box>
                     <Flex direction='column' p={4} flex={1} bg='gray.100'>
                         <Box flex={1}>
