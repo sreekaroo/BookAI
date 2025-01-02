@@ -1,15 +1,14 @@
+import { BACKEND_API } from '@/app/config';
 import { Box, Container, VStack } from '@chakra-ui/react';
-
-
 
 import { Book } from '../_helpers/types';
 import { BookContent } from './BookContent';
 import { BookHeader } from './BookHeader';
 
-const API_URL = 'http://backend:8080/v2/books/{}';
+const API_PATH = `${BACKEND_API}/books/{}`;
 async function fetchBookData(bookId: string): Promise<Book> {
     // Fetch book data from the API
-    const data = await fetch(API_URL.replace('{}', bookId), { cache: 'force-cache' });
+    const data = await fetch(API_PATH.replace('{}', bookId), { cache: 'force-cache' });
     const jsonData = await data.json();
 
     if (!jsonData.data.book) {

@@ -1,12 +1,15 @@
 import { GetServerSideProps } from 'next';
 import NextLink from 'next/link';
 
+
+
 import { Box, Container, Heading, SimpleGrid } from '@chakra-ui/react';
 
+import { BACKEND_API } from '../config';
 import BookOverview from './BookOverview';
 import { Book } from './_helpers/types';
 
-const API_PATH = 'http://backend:8080/v2/books';
+const API_PATH = `${BACKEND_API}/books`;
 export const dynamic = 'force-dynamic';
 
 async function fetchBooks(): Promise<Book[]> {
