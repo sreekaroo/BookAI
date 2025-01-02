@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"sort"
@@ -78,6 +79,8 @@ func GetBookById(bookId string) (*BookResponse, error) {
 		book.Content = string(content)
 		book.Title = bookMetadata.Title
 		book.BookKey = bookId
+		log.Print(fmt.Sprintf("Book content loaded %v", book))
+
 		return &book, nil
 	}
 
