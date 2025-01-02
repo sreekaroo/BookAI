@@ -7,7 +7,6 @@ __pycache__/
 *.so
 
 downloaded_*
-summaries/
 db.json
 .idea
 *_demo_script.py
