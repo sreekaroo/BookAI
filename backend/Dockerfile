@@ -1,8 +1,8 @@
-FROM golang:1.23-alpine
+FROM golang:1.23-bullseye
 
-RUN apk update
+RUN apt update
 
-WORKDIR /backend
+WORKDIR /app
 
 COPY go.mod go.sum ./
 

@@ -3,10 +3,9 @@ package services
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"os"
-	"unsafe"
+	"sort"
 )
 
 type Ebook struct {
@@ -30,7 +29,7 @@ type BookResponse struct {
 // GetBooks get paginated book list
 func GetBooks(page int, limit int) ([]BookResponse, error) {
 
-	localDatabasePath := "init_scripts/db.json"
+	localDatabasePath := "init_scripts/metadata.json"
 	jsonFile, _ := os.Open(localDatabasePath)
 	var data EbookCollection
 
@@ -49,14 +48,22 @@ func GetBooks(page int, limit int) ([]BookResponse, error) {
 		books = append(books, book)
 	}
 
-	fmt.Printf("Memory in bytes size %v", unsafe.Sizeof(books))
+	// ensuring same order of books returned since decoding as map
+	sort.Slice(books, func(i, j int) bool {
+		return books[i].BookKey < books[j].BookKey
+	})
 
-	return books, nil
+	currPageIdx := page * limit
+	if currPageIdx >= len(books) {
+		return nil, errors.New("page exceeds limit")
+	}
+
+	return books[currPageIdx:], nil
 
 }
 
 func GetBookById(bookId string) (*BookResponse, error) {
-	localDatabasePath := "init_scripts/db.json"
+	localDatabasePath := "init_scripts/metadata.json"
 	jsonFile, _ := os.Open(localDatabasePath)
 	var data EbookCollection
 

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sreekaroo/BookAI/backend/models"
 	"github.com/sreekaroo/BookAI/backend/services"
@@ -27,7 +28,7 @@ func GetBooks(c *gin.Context) {
 
 	pageQuery := c.DefaultQuery("page", "0")
 	page, _ := strconv.Atoi(pageQuery)
-	limit := 5
+	limit := 100 // paging limit
 
 	books, _ := services.GetBooks(page, limit)
 	hasPrev := page > 0
@@ -65,12 +66,12 @@ func GetOneBook(c *gin.Context) {
 	book, err := services.GetBookById(paramId)
 	if err != nil {
 		response.Message = err.Error()
-		response.SendResponse(c)
+		models.SendErrorResponse(c, 401, fmt.Sprintf("Book with ID %s does not exist", paramId))
 		return
 	}
 
 	response.StatusCode = http.StatusOK
 	response.Success = true
-	response.Data = gin.H{"book": book}
+	response.Data = gin.H{"book": book} // gin.h is shortcut for map
 	response.SendResponse(c)
 }

@@ -11,28 +11,9 @@ import (
 	"time"
 )
 
-// @title GoLang Rest API Starter Doc
-// @version 1.0
-// @description GoLang - Gin - RESTful - MongoDB - Redis
-// @termsOfService https://swagger.io/terms/
-
-// @contact.name Ebubekir Yiğit
-// @contact.url https://github.com/ebubekiryigit
-// @contact.email ebubekiryigit6@gmail.com
-
-// @license.name MIT License
-// @license.url https://opensource.org/licenses/MIT
-
-// @host localhost:8080
-// @BasePath /
-// @schemes http
-
-// @securityDefinitions.apikey ApiKeyAuth
-// @in header
-// @name Bearer-Token
 func main() {
 	services.LoadConfig()
-
+	
 	routes.InitGin()
 	router := routes.New()
 
@@ -43,7 +24,6 @@ func main() {
 		IdleTimeout:  time.Second * 30,
 		Handler:      router,
 	}
-
 	go func() {
 		if err := server.ListenAndServe(); err != nil {
 			log.Printf("listen: %s\n", err)

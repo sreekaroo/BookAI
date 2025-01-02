@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import {
     Box,
@@ -12,10 +13,7 @@ import {
     Skeleton,
     VStack
 } from '@chakra-ui/react';
-import Link from 'next/link';
 
-export default async function Page() {
-    return (
-        <Link href="/books"> Go to books page </Link>
-    );
+export default function Page() {
+    return <Link href='/books'> Go to books page </Link>;
 }
