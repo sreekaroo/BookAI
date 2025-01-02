@@ -10,6 +10,7 @@ import BookOverview from './BookOverview';
 import { Book } from './_helpers/types';
 
 const API_PATH = `${BACKEND_API}/books`;
+console.log('API_PATH: ', API_PATH);
 export const dynamic = 'force-dynamic';
 
 async function fetchBooks(): Promise<Book[]> {

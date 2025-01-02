@@ -79,7 +79,7 @@ func GetBookById(bookId string) (*BookResponse, error) {
 		book.Content = string(content)
 		book.Title = bookMetadata.Title
 		book.BookKey = bookId
-		log.Print(fmt.Sprintf("Book content loaded %v", book))
+		log.Print(fmt.Sprintf("Book content loaded %v", book.Content))
 
 		return &book, nil
 	}
