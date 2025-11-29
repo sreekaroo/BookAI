@@ -1,4 +1,6 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
+import ReactMarkdown from 'react-markdown';
+
 
 type BookContentProps = {
     content: string;
@@ -10,7 +12,9 @@ export function BookContent({ content }: BookContentProps) {
             <Heading as='h2' size='lg' mb={4}>
                 Book Content
             </Heading>
-            <Text whiteSpace='pre-line'>{content}</Text>
+            <ReactMarkdown>
+                {content}
+            </ReactMarkdown>
         </Box>
     );
 }
